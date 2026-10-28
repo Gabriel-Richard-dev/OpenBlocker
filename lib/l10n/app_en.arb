@@ -1,0 +1,445 @@
+{
+  "@@locale": "en",
+  "appName": "OpenBlock",
+  "tabHome": "Home",
+  "tabRules": "Rules",
+  "tabStatistics": "Statistics",
+  "tabSettings": "Settings",
+  "actionAdd": "Add",
+  "actionBack": "Back",
+  "actionCancel": "Cancel",
+  "actionClose": "Close",
+  "actionDelete": "Delete",
+  "actionNext": "Next",
+  "actionReplace": "Replace",
+  "actionReset": "Reset",
+  "actionSave": "Save",
+  "actionUse": "Use this app",
+  "moreOptions": "More options",
+  "copiedToClipboard": "Copied to clipboard",
+  "todayTitle": "Today",
+  "quickActions": "Quick actions",
+  "newRule": "New rule",
+  "editRule": "Edit rule",
+  "editRules": "Edit rules",
+  "statusNoRulesTitle": "No active rules",
+  "statusNoRulesMessage": "Create a rule or apply a preset to start. OpenBlock only acts on the apps you choose.",
+  "statusWorkingTitle": "OpenBlock is active",
+  "statusWorkingMessage": "{count, plural, =1{1 rule enabled.} other{{count} rules enabled.}}",
+  "@statusWorkingMessage": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statusPartialTitle": "Partially working",
+  "statusPartialMessage": "Some rules cannot be enforced right now:",
+  "statusNotWorkingTitle": "Blocking is not working",
+  "statusNotWorkingMessage": "Your rules are saved but nothing is being blocked:",
+  "statusCheckingTitle": "Checking status…",
+  "issueUnsupportedPlatform": "Blocking is only available on Android for now.",
+  "issueAccessibilityOff": "The OpenBlock accessibility service is turned off.",
+  "issueAccessibilityStopped": "The accessibility service is enabled but Android is not running it. Turn it off and on again.",
+  "issueUsageAccessMissing": "Daily limits need usage access to measure time.",
+  "fixPermissions": "Review permissions",
+  "metricInterventions": "Interventions today",
+  "metricFocusMinutes": "Focus time today",
+  "limitsToday": "Daily limits",
+  "usageMeasuredNote": "Measured by Android (usage access). It can lag a few minutes behind.",
+  "usageUnknown": "Not measured",
+  "usageOfLimit": "{used} / {limit} min",
+  "@usageOfLimit": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "focusTitle": "Focus session",
+  "focusIdleMessage": "Pick a duration. The rules you choose stay active until the timer ends.",
+  "focusCustom": "Custom",
+  "focusActiveTitle": "Focus session in progress",
+  "focusRemainingSemantics": "{minutes, plural, =1{About 1 minute left} other{About {minutes} minutes left}}",
+  "@focusRemainingSemantics": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "focusRulesActive": "{count, plural, =0{No rules selected — timer only.} =1{1 rule active during this session.} other{{count} rules active during this session.}}",
+  "@focusRulesActive": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "focusEnd": "End session",
+  "focusEndTitle": "End the focus session?",
+  "focusEndMessage": "Rules that were active only because of this session will stop applying.",
+  "focusKeepGoing": "Keep going",
+  "focusStartTitle": "Start a focus session",
+  "focusRulesToApply": "Rules to apply",
+  "focusNoRules": "You have no rules yet. The session will work as a timer only.",
+  "focusStart": "Start",
+  "minutesShort": "{minutes} min",
+  "@minutesShort": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "minutesLong": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "@minutesLong": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "secondsShort": "{seconds} s",
+  "@secondsShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "presetsTitle": "Presets",
+  "rulesSectionTitle": "Rules",
+  "exceptionsSectionTitle": "Exceptions",
+  "rulesEmptyTitle": "No rules yet",
+  "rulesEmptyMessage": "Start from a preset above or create your own rule with the button below.",
+  "exceptionsEmptyMessage": "Exceptions allow an app at specific times, overriding other rules. Create one by choosing “Exception” as the rule type.",
+  "precedenceTitle": "How rules combine",
+  "precedenceBody": "When several rules apply to the same app, OpenBlock decides in this order:\n\n1. Disabled, paused or snoozed rules are ignored.\n2. An active exception allows the app and overrides every other rule.\n3. A scheduled block, or a rule activated by a focus session, blocks the whole app.\n4. A daily limit blocks the app once today's measured usage reaches it.\n5. A feed block hides only the selected feeds.\n6. A pause screen asks you to wait a few seconds before continuing.\n\nIf two rules of the same type apply, the one listed first wins.",
+  "pauseFor": "Pause for {minutes} min",
+  "@pauseFor": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "pauseUntilTomorrow": "Pause until tomorrow",
+  "resumeRule": "Resume now",
+  "deleteRuleTitle": "Delete rule?",
+  "deleteRuleMessage": "“{name}” will be removed. This cannot be undone.",
+  "@deleteRuleMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleStatusDisabled": "Disabled",
+  "ruleStatusPausedUntil": "Paused until {time}",
+  "@ruleStatusPausedUntil": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleStatusWaitingForFocus": "Waits for a focus session",
+  "ruleStatusOutsideSchedule": "Outside schedule",
+  "ruleStatusActive": "Active now",
+  "ruleStatusActiveFocus": "Active (focus session)",
+  "ruleStatusLimitReached": "Limit reached",
+  "ruleStatusLimitUnknown": "Active · usage not measured",
+  "ruleStatusLimitProgress": "{used} of {limit} min used",
+  "@ruleStatusLimitProgress": {
+    "placeholders": {
+      "used": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "everyDay": "Every day",
+  "weekdaysOnly": "Weekdays",
+  "weekendsOnly": "Weekends",
+  "limitPerDay": "{minutes} min per day",
+  "@limitPerDay": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "onlyDuringFocusShort": "Focus sessions only",
+  "modeAppLimit": "Daily limit",
+  "modeScheduledBlock": "Block app",
+  "modeSelectiveFeed": "Block feed",
+  "modePauseScreen": "Pause screen",
+  "modeAllowException": "Exception",
+  "modeAppLimitDescription": "Blocks the whole app for the rest of the day once your measured usage reaches the limit. Needs usage access to measure time.",
+  "modeScheduledBlockDescription": "Blocks the whole app while the rule is active (on its schedule or during a focus session). You can always go back to the home screen.",
+  "modeSelectiveFeedDescription": "Blocks only a specific feed, such as YouTube Shorts, and leaves the rest of the app usable. Experimental: it depends on how the app is built and may stop working after app updates.",
+  "modePauseScreenDescription": "Shows a short pause before you can continue into the app. After the countdown, you decide whether to continue.",
+  "modeAllowExceptionDescription": "Allows the app while active, overriding every other rule for it — for example, YouTube on weekends.",
+  "modeUnavailableForApp": "Not available for this app.",
+  "feedYoutubeShorts": "YouTube Shorts",
+  "feedInstagramReels": "Instagram Reels",
+  "supportExperimental": "Experimental",
+  "supportVerified": "Verified on real devices",
+  "feedSupportedBadge": "Feed blocking",
+  "ruleAppSection": "App",
+  "chooseApp": "Choose an app",
+  "ruleNameLabel": "Rule name",
+  "defaultRuleName": "{app} · {mode}",
+  "@defaultRuleName": {
+    "placeholders": {
+      "mode": {
+        "type": "String"
+      },
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "ruleModeSection": "What should happen",
+  "dailyLimitSection": "Daily limit",
+  "feedSection": "Feeds to block",
+  "feedExperimentalNote": "Feed detection relies on the app's current interface and may miss the feed or stop working after an update. When it fails, the rest of the app keeps working normally.",
+  "pauseLengthNote": "The pause lasts {seconds} seconds. You can change it in Settings.",
+  "@pauseLengthNote": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "scheduleSection": "When",
+  "onlyDuringFocus": "Only during focus sessions",
+  "onlyDuringFocusDescription": "The rule applies only while a focus session that includes it is running.",
+  "allDay": "All day",
+  "fromTime": "From {time}",
+  "@fromTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "untilTime": "Until {time}",
+  "@untilTime": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "overnightNote": "The window crosses midnight and ends the next day.",
+  "capabilitySection": "What this rule can do",
+  "whatItControls": "What it controls",
+  "requiredPermissions": "Required permissions",
+  "noPermissionsNeeded": "None",
+  "errorMissingName": "Give the rule a name.",
+  "errorMissingApp": "Choose an app.",
+  "errorInvalidLimit": "Choose a daily limit between 1 and 1440 minutes.",
+  "errorIncompleteTimeWindow": "Set both the start and the end time.",
+  "errorInvalidTime": "The time is not valid.",
+  "errorInvalidWeekday": "One of the selected days is not valid.",
+  "errorMissingFeedTarget": "Choose at least one feed to block.",
+  "errorUnsupportedFeedTarget": "This app does not support that feed.",
+  "searchApps": "Search apps",
+  "noAppsFound": "No apps found",
+  "noAppsFoundMessage": "Try another name or package.",
+  "appListUnavailable": "The list of installed apps is not available. Type the app's package name or pick a known app.",
+  "packageNameLabel": "Package name",
+  "knownApps": "Known apps",
+  "presetStudyMode": "Study Mode",
+  "presetStudyModeDescription": "A pause before social apps on weekdays, 08:00–18:00.",
+  "presetNoShorts": "No Shorts",
+  "presetNoShortsDescription": "Blocks Shorts and Reels where supported; a pause before short-video apps.",
+  "presetSocialMediaLimit": "Social Media Limit",
+  "presetSocialMediaLimitDescription": "30 minutes per day for each social app.",
+  "presetDeepFocus": "Deep Focus",
+  "presetDeepFocusDescription": "Blocks social and video apps during focus sessions.",
+  "presetCustom": "Custom",
+  "presetCustomDescription": "Build your own rule from scratch.",
+  "presetRuleName": "{app} · {preset}",
+  "@presetRuleName": {
+    "placeholders": {
+      "preset": {
+        "type": "String"
+      },
+      "app": {
+        "type": "String"
+      }
+    }
+  },
+  "presetNoApps": "None of the apps in this preset are installed.",
+  "presetConfirm": "{count, plural, =1{This adds 1 rule for: {apps}.} other{This adds {count} rules for: {apps}.}}\n\nSupported on: {platforms}. You can edit or delete them afterwards.",
+  "@presetConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "apps": {
+        "type": "String"
+      },
+      "platforms": {
+        "type": "String"
+      }
+    }
+  },
+  "presetAdded": "{count, plural, =1{1 rule added} other{{count} rules added}}",
+  "@presetAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInterventionsTitle": "Interventions",
+  "statsTotalLast7Days": "{count, plural, =0{None in the last 7 days} =1{1 in the last 7 days} other{{count} in the last 7 days}}",
+  "@statsTotalLast7Days": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsInterventionsSource": "Counted on this device each time a pause or block screen was shown.",
+  "statsFocusTitle": "Focus sessions",
+  "statsSessionsCompleted": "{count, plural, =0{No sessions completed this week} =1{1 session completed this week} other{{count} sessions completed this week}}",
+  "@statsSessionsCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "statsFocusSource": "Minutes per day, from the start and end time of each session.",
+  "statsUsageTitle": "App usage",
+  "statsTopRules": "Most triggered rules",
+  "deletedRule": "Deleted rule",
+  "usageNeedsPermission": "Grant usage access to see how much time you spend in the apps that have rules.",
+  "usageNoRules": "Usage is shown only for apps that have rules.",
+  "usageUnavailable": "Usage data is not available right now.",
+  "usageWeekTotal": "{minutes} min in 7 days",
+  "@usageWeekTotal": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "usageToday": "{minutes} min today",
+  "@usageToday": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "settingsPermissions": "Permissions",
+  "settingsAppearance": "Appearance",
+  "settingsIntervention": "Pause and block screen",
+  "settingsPrivacy": "Privacy",
+  "settingsData": "Your data",
+  "settingsAbout": "About",
+  "permissionsTitle": "Permissions",
+  "permissionsSubtitle": "See what is granted and why",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "snoozeLength": "Snooze length",
+  "pauseLength": "Pause countdown",
+  "pauseMessage": "Message",
+  "pauseMessageDefault": "Want to go back to what you were doing?",
+  "privacyTitle": "Privacy",
+  "privacySubtitle": "Local-first. No account, no tracking.",
+  "exportConfig": "Export settings and rules",
+  "exportConfigSubtitle": "Copies a JSON backup to the clipboard",
+  "exportDone": "Backup copied to the clipboard",
+  "importConfig": "Import settings and rules",
+  "importConfigSubtitle": "Reads a JSON backup from the clipboard",
+  "importInvalid": "The clipboard does not contain an OpenBlock backup.",
+  "importConfirm": "{count, plural, =1{Replace your current rules with 1 imported rule?} other{Replace your current rules with {count} imported rules?}}",
+  "@importConfirm": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importDone": "Backup imported",
+  "deleteStatistics": "Delete statistics",
+  "deleteStatisticsMessage": "Focus history and intervention counts will be deleted from this device. Rules are kept.",
+  "deleteAllData": "Delete all data",
+  "deleteAllDataMessage": "All rules, settings and statistics will be deleted from this device and OpenBlock will start over.",
+  "aboutVersion": "Version {version}",
+  "@aboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "sourceCode": "Source code",
+  "licenses": "Licenses",
+  "licenseMit": "Open source under the MIT License",
+  "showOnboarding": "Show introduction again",
+  "permissionAccessibility": "Accessibility service",
+  "permissionUsageAccess": "Usage access",
+  "permissionChecking": "Checking…",
+  "permissionGranted": "On",
+  "permissionNotGranted": "Off",
+  "permissionStopped": "Stopped",
+  "permissionWhyLabel": "Why",
+  "permissionObservesLabel": "What it can see",
+  "permissionAccessibilityWhy": "Lets OpenBlock notice which app is open and show the pause or block screen on top of it. Required by every rule.",
+  "permissionAccessibilityObserves": "The package name of the app on screen. In apps with a feed rule, only the identifiers of on-screen elements used to recognise the feed. Never message text, passwords or what you type. Nothing is stored or sent.",
+  "permissionUsageWhy": "Lets OpenBlock read how many minutes you used each app today. Required for daily limits and usage statistics.",
+  "permissionUsageObserves": "Foreground time per app, as recorded by Android. It stays on this device.",
+  "permissionOverlayNotNeeded": "“Display over other apps” is not needed: the pause and block screens are drawn by the accessibility service.",
+  "openSystemSettings": "Open system settings",
+  "refreshStatus": "Refresh status",
+  "permissionsRevokeHint": "You can revoke these permissions at any time in Android settings. OpenBlock will show that blocking stopped.",
+  "restrictedSettingsTitle": "Is the switch greyed out?",
+  "restrictedSettingsMessage": "On Android 13 and later, apps installed outside an app store must be allowed first: open App info, tap ⋮ and choose “Allow restricted settings”, then return to the accessibility settings.",
+  "openAppInfo": "Open app info",
+  "privacyLocalTitle": "Everything stays on this device",
+  "privacyLocalBody": "Rules, settings, focus history and intervention counts are stored locally. OpenBlock has no account, no server and no analytics.",
+  "privacyAccessibilityTitle": "Accessibility service",
+  "privacyAccessibilityBody": "The service receives events about the app on screen. OpenBlock reads only the package name and, for feed rules in supported apps, whether elements with known identifiers are visible. It does not read or keep text, and it ignores apps without rules.",
+  "privacyUsageTitle": "Usage access",
+  "privacyUsageBody": "Usage minutes are read from Android only for apps that have rules, and only to enforce limits and show statistics.",
+  "privacyNoNetworkTitle": "No network access",
+  "privacyNoNetworkBody": "The app does not request the Internet permission, so it cannot send anything off the device.",
+  "privacyDeleteTitle": "Deleting your data",
+  "privacyDeleteBody": "Use Settings › Your data to delete statistics or everything. Uninstalling the app also removes all of its data.",
+  "onboardingWelcomeTitle": "Take back your attention",
+  "onboardingWelcomeBody": "OpenBlock helps you stop automatic scrolling and use apps on your own terms. You set the rules: block an app at certain hours, set a daily limit, block a feed such as YouTube Shorts where supported, or add a short pause before an app opens.\n\nNo account, no ads, no tracking.",
+  "onboardingPermissionsTitle": "Permissions you grant",
+  "onboardingPermissionsBody": "To act on other apps, Android requires permissions that only you can turn on in the system settings:\n\n• Accessibility service — notices which app is on screen and shows the pause or block screen over it. For feed rules it also checks whether a known feed is visible.\n\n• Usage access — reads how many minutes you used each app today, needed for daily limits.\n\nOpenBlock never turns these on by itself.",
+  "onboardingDataTitle": "What OpenBlock can see",
+  "onboardingDataBody": "• The package name of the app in the foreground.\n• In supported apps with a feed rule, the identifiers of on-screen elements, used only to recognise the feed.\n• Minutes of use per app, recorded by Android.\n\nIt does not read messages, passwords or what you type, and it does not store screen content. Nothing leaves your device.",
+  "onboardingControlTitle": "You stay in control",
+  "onboardingControlBody": "Pause or delete any rule, end a focus session at any time, or switch OpenBlock off completely:\n\n• Settings › Accessibility › OpenBlock › Off\n• Settings › Apps › Special app access › Usage access\n\nUninstalling OpenBlock removes all of its data.",
+  "onboardingSetupTitle": "Set up permissions",
+  "onboardingSetupBody": "Grant what you need now or later from Settings › Permissions. Without permissions the app still opens, but it cannot block anything.",
+  "onboardingFinish": "Get started",
+  "onboardingStep": "Step {current} of {total}",
+  "@onboardingStep": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
+}
