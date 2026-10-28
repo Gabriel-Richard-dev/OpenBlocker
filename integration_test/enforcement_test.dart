@@ -15,9 +15,11 @@ void main() {
   final platform = MethodChannelPlatform();
   const target = 'com.android.settings';
 
-  testWidgets(
+  // A plain test: enabling an accessibility service mid-test turns on Flutter
+  // semantics, which testWidgets reports as a leaked SemanticsHandle.
+  test(
     'the service blocks an app with an active rule',
-    (tester) async {
+    () async {
       await platform.clearRuntimeData();
       await platform.syncConfig(
         buildNativeConfig(
