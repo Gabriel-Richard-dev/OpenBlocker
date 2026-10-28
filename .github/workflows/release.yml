@@ -1,0 +1,133 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to (re)build, e.g. v0.1.0
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  FLUTTER_VERSION: 3.41.6
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      - name: Resolve version
+        id: version
+        run: |
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
+          VERSION="${TAG#v}"
+          PUBSPEC=$(grep -E '^version:' pubspec.yaml | sed -E 's/version: *([0-9.]+).*/\1/')
+          if [ "$VERSION" != "$PUBSPEC" ]; then
+            echo "Tag $TAG does not match pubspec version $PUBSPEC" >&2
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: flutter analyze
+      - run: flutter test
+
+      - name: Set up release signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.OPENBLOCK_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.OPENBLOCK_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.OPENBLOCK_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.OPENBLOCK_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::Release signing secrets are not configured (see docs/release.md)."
+            exit 1
+          fi
+          echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          {
+            echo "OPENBLOCK_KEYSTORE_PATH=$RUNNER_TEMP/release.jks"
+            echo "OPENBLOCK_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "OPENBLOCK_KEY_ALIAS=$KEY_ALIAS"
+            echo "OPENBLOCK_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      - name: Build APKs
+        run: |
+          flutter build apk --release
+          cp build/app/outputs/flutter-apk/app-release.apk "$RUNNER_TEMP/universal.apk"
+          flutter build apk --release --split-per-abi
+
+      - name: Verify permissions and signature
+        run: |
+          tool/ci/check_permissions.sh "$RUNNER_TEMP/universal.apk"
+          APKSIGNER=$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)apksigner
+          "$APKSIGNER" verify --print-certs "$RUNNER_TEMP/universal.apk" | tee "$RUNNER_TEMP/cert.txt"
+          if grep -q "CN=Android Debug" "$RUNNER_TEMP/cert.txt"; then
+            echo "::error::Release APK is signed with a debug key"
+            exit 1
+          fi
+
+      - name: Collect artifacts
+        id: artifacts
+        run: |
+          V=${{ steps.version.outputs.version }}
+          mkdir -p dist
+          cp "$RUNNER_TEMP/universal.apk" "dist/openblock-$V-universal.apk"
+          for abi in arm64-v8a armeabi-v7a x86_64; do
+            cp "build/app/outputs/flutter-apk/app-$abi-release.apk" "dist/openblock-$V-$abi.apk"
+          done
+          (cd dist && sha256sum *.apk > SHA256SUMS.txt)
+          cat dist/SHA256SUMS.txt
+          CERT_SHA256=$(grep -m1 'certificate SHA-256 digest' "$RUNNER_TEMP/cert.txt" | awk -F': ' '{print $2}')
+          echo "cert_sha256=$CERT_SHA256" >> "$GITHUB_OUTPUT"
+
+      - name: Release notes
+        run: |
+          V=${{ steps.version.outputs.version }}
+          awk -v v="$V" '
+            $0 ~ "^## \\[" v "\\]" { found=1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > notes.md
+          {
+            echo
+            echo "### Verify the download"
+            echo
+            echo "Signing certificate SHA-256: \`${{ steps.artifacts.outputs.cert_sha256 }}\`"
+            echo
+            echo "File checksums are in \`SHA256SUMS.txt\`."
+          } >> notes.md
+          cat notes.md
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=${{ steps.version.outputs.tag }}
+          V=${{ steps.version.outputs.version }}
+          FLAGS=""
+          case "$V" in 0.*|*-*) FLAGS="--prerelease" ;; esac
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+            gh release edit "$TAG" --notes-file notes.md
+          else
+            gh release create "$TAG" dist/* --title "OpenBlock $V" --notes-file notes.md $FLAGS
+          fi

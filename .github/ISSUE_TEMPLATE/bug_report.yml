@@ -1,0 +1,50 @@
+name: Bug report
+description: Something does not work as described.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please do not include screenshots or logs that show private content (messages, accounts, notifications).
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Create a rule …
+        2. Open …
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: OpenBlock version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+      placeholder: Pixel 7, Android 14
+    validations:
+      required: true
+  - type: input
+    id: target
+    attributes:
+      label: Target app and version (if relevant)
+      placeholder: YouTube 19.40.36
+  - type: checkboxes
+    id: permissions
+    attributes:
+      label: Permissions
+      options:
+        - label: The accessibility service is enabled
+        - label: Usage access is granted

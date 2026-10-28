@@ -1,0 +1,38 @@
+name: App support / adapter report
+description: Request support for an app, or report that a feed adapter stopped working.
+labels: [adapter]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        App-specific adapters are reviewed with the process in docs/adapter-review.md. Every adapter must be tested on real devices before it is marked as verified.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Request support for a new app or feed
+        - An existing adapter does not detect the feed
+        - An existing adapter blocks something it should not
+    validations:
+      required: true
+  - type: input
+    id: app
+    attributes:
+      label: App name, package name and version
+      placeholder: YouTube, com.google.android.youtube, 19.40.36
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and Android version
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Which screen or feed, and what you observed. Resource ids from a layout inspector are very helpful; do not share screenshots with private content.
+    validations:
+      required: true
