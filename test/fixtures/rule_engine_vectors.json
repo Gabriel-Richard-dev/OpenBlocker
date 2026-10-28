@@ -1,0 +1,1502 @@
+{
+  "description": "Shared test vectors for lib/core/rule_engine.dart and android/.../engine/RuleEngine.kt. Times: nowLocal is local wall-clock time; nowMs, focus and snooze values are epoch milliseconds.",
+  "cases": [
+    {
+      "name": "no rules",
+      "rules": [],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "all-day block",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "rule for another app",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.instagram.android",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "disabled rule",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": false,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "paused rule",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": 2000000
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "pause expired",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": 999999
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "snoozed from overlay",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {
+        "a": 1000001
+      },
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "snooze expired",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {
+        "a": 1000000
+      },
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "inside weekday window",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "window start is inclusive",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T09:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "window end is exclusive",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T17:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "weekend outside weekdays",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "overnight before midnight",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            5
+          ],
+          "startTime": "22:00",
+          "endTime": "06:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-30T23:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "overnight after midnight counts previous day",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            5
+          ],
+          "startTime": "22:00",
+          "endTime": "06:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T05:59",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "overnight ends at end time",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            5
+          ],
+          "startTime": "22:00",
+          "endTime": "06:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T06:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "overnight next evening not selected",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            5
+          ],
+          "startTime": "22:00",
+          "endTime": "06:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T23:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "overnight morning of selected day belongs to previous day",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            5
+          ],
+          "startTime": "22:00",
+          "endTime": "06:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-30T05:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "start equals end means all day",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": "08:00",
+          "endTime": "08:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T03:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "limit not reached",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 30,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": 29,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "limit reached",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 30,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": 30,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "limit",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "limit with unknown usage is not enforced",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 30,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "limit outside its schedule",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 30,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T10:00",
+      "nowMs": 1000000,
+      "usageMinutes": 90,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "exception overrides block",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "x",
+          "name": "x",
+          "packageName": "com.google.android.youtube",
+          "mode": "allowException",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "exception",
+        "ruleId": "x",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "exception outside its window",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "x",
+          "name": "x",
+          "packageName": "com.google.android.youtube",
+          "mode": "allowException",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            6,
+            7
+          ],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "exception overrides focus block",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "x",
+          "name": "x",
+          "packageName": "com.google.android.youtube",
+          "mode": "allowException",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "exception",
+        "ruleId": "x",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus-only rule without session",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus-only rule in session",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "focus",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus session without the rule",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "b"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus session ended early",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": 900000
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus session expired",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 1000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus session not started yet",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": true,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 1000001,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "focus activates rule outside schedule",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "startTime": "09:00",
+          "endTime": "17:00",
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-31T10:00",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": {
+        "id": "f1",
+        "startedAtMs": 0,
+        "plannedEndAtMs": 10000000,
+        "activeRuleIds": [
+          "a"
+        ],
+        "completed": false,
+        "endedAtMs": null
+      },
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "focus",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "feed rules union targets",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [
+            "youtube.shorts"
+          ],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "b",
+          "name": "b",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [
+            "youtube.shorts",
+            "youtube.other"
+          ],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockFeed",
+        "reason": "feed",
+        "ruleId": "a",
+        "feedTargets": [
+          "youtube.shorts",
+          "youtube.other"
+        ]
+      }
+    },
+    {
+      "name": "block beats feed and pause",
+      "rules": [
+        {
+          "id": "p",
+          "name": "p",
+          "packageName": "com.google.android.youtube",
+          "mode": "pauseScreen",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "f",
+          "name": "f",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [
+            "youtube.shorts"
+          ],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "reached limit beats feed",
+      "rules": [
+        {
+          "id": "f",
+          "name": "f",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [
+            "youtube.shorts"
+          ],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "l",
+          "name": "l",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 10,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": 10,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "limit",
+        "ruleId": "l",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "scheduled block beats reached limit",
+      "rules": [
+        {
+          "id": "l",
+          "name": "l",
+          "packageName": "com.google.android.youtube",
+          "mode": "appLimit",
+          "enabled": true,
+          "dailyLimitMinutes": 10,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": 10,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "feed beats pause",
+      "rules": [
+        {
+          "id": "p",
+          "name": "p",
+          "packageName": "com.google.android.youtube",
+          "mode": "pauseScreen",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "f",
+          "name": "f",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [
+            "youtube.shorts"
+          ],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockFeed",
+        "reason": "feed",
+        "ruleId": "f",
+        "feedTargets": [
+          "youtube.shorts"
+        ]
+      }
+    },
+    {
+      "name": "pause screen",
+      "rules": [
+        {
+          "id": "p",
+          "name": "p",
+          "packageName": "com.google.android.youtube",
+          "mode": "pauseScreen",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "pause",
+        "reason": "pause",
+        "ruleId": "p",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "first rule wins ties",
+      "rules": [
+        {
+          "id": "a",
+          "name": "a",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        },
+        {
+          "id": "b",
+          "name": "b",
+          "packageName": "com.google.android.youtube",
+          "mode": "scheduledBlock",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "blockApp",
+        "reason": "scheduled",
+        "ruleId": "a",
+        "feedTargets": []
+      }
+    },
+    {
+      "name": "feed rule without targets does nothing",
+      "rules": [
+        {
+          "id": "f",
+          "name": "f",
+          "packageName": "com.google.android.youtube",
+          "mode": "selectiveFeed",
+          "enabled": true,
+          "dailyLimitMinutes": null,
+          "activeWeekdays": [],
+          "startTime": null,
+          "endTime": null,
+          "feedTargets": [],
+          "focusOnly": false,
+          "pausedUntilMs": null
+        }
+      ],
+      "packageName": "com.google.android.youtube",
+      "nowLocal": "2026-10-28T10:30",
+      "nowMs": 1000000,
+      "usageMinutes": null,
+      "focus": null,
+      "snoozes": {},
+      "expect": {
+        "action": "none",
+        "reason": "noRule",
+        "ruleId": null,
+        "feedTargets": []
+      }
+    }
+  ]
+}
