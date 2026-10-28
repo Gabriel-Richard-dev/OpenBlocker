@@ -118,7 +118,7 @@ class InterventionOverlay(private val service: AccessibilityService) {
 
     private fun build(spec: Spec, listener: Listener): View {
         val dark = isDark()
-        val background = if (dark) Color.rgb(0x12, 0x15, 0x14) else Color.rgb(0xF6, 0xF7, 0xF6)
+        val backgroundColor = if (dark) Color.rgb(0x12, 0x15, 0x14) else Color.rgb(0xF6, 0xF7, 0xF6)
         val foreground = if (dark) Color.rgb(0xE3, 0xE6, 0xE4) else Color.rgb(0x1A, 0x1C, 0x1B)
         val muted = if (dark) Color.rgb(0xB0, 0xB8, 0xB4) else Color.rgb(0x52, 0x5B, 0x57)
         val accent = if (dark) Color.rgb(0x8C, 0xD5, 0xC1) else Color.rgb(0x2E, 0x7D, 0x6B)
@@ -226,7 +226,7 @@ class InterventionOverlay(private val service: AccessibilityService) {
             )
         }
         return FrameLayout(service).apply {
-            setBackgroundColor(background)
+            setBackgroundColor(backgroundColor)
             // Swallow touches so the app underneath cannot be used.
             isClickable = true
             addView(scroll)
