@@ -96,7 +96,7 @@ jobs:
           done
           (cd dist && sha256sum *.apk > SHA256SUMS.txt)
           cat dist/SHA256SUMS.txt
-          CERT_SHA256=$(grep -m1 'certificate SHA-256 digest' "$RUNNER_TEMP/cert.txt" | awk -F': ' '{print $2}')
+          CERT_SHA256=$(grep -m1 'certificate SHA-256 digest' "$RUNNER_TEMP/cert.txt" | awk '{print $NF}')
           echo "cert_sha256=$CERT_SHA256" >> "$GITHUB_OUTPUT"
 
       - name: Release notes
@@ -105,6 +105,7 @@ jobs:
           awk -v v="$V" '
             $0 ~ "^## \\[" v "\\]" { found=1; next }
             found && /^## \[/ { exit }
+            found && /^\[[^]]+\]: / { next }
             found { print }
           ' CHANGELOG.md > notes.md
           {
