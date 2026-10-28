@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OpenBlock</string>
+    <string name="accessibility_service_label">OpenBlock</string>
+    <string name="accessibility_service_summary">Shows pause and block screens for the apps you set rules for.</string>
+    <string name="accessibility_service_description">OpenBlock uses this service to notice which app is on screen and to show a pause or block screen for the apps you created rules for. For feed rules in supported apps (such as YouTube Shorts) it checks whether views with known identifiers are visible. It does not read text, messages or passwords, it does not store screen content, and it has no network access. Everything stays on this device. You can turn it off here at any time.</string>
+
+    <string name="overlay_title_block">This app is blocked right now</string>
+    <string name="overlay_message_block">Your rule “%1$s” is active.</string>
+    <string name="overlay_title_limit">Daily limit reached</string>
+    <string name="overlay_message_limit">You reached the limit you set for %1$s today.</string>
+    <string name="overlay_title_focus">You are in a focus session</string>
+    <string name="overlay_message_focus">You opened %1$s during your focus session.</string>
+    <string name="overlay_title_feed">This feed is blocked</string>
+    <string name="overlay_message_feed">The rest of the app still works.</string>
+    <string name="overlay_message_feed_focus">You opened this feed during your focus session.</string>
+    <string name="overlay_title_pause">Take a breath</string>
+    <string name="overlay_message_pause">You are about to open %1$s.</string>
+    <string name="overlay_question">Want to go back to what you were doing?</string>
+    <string name="overlay_action_home">Go to home screen</string>
+    <string name="overlay_action_back">Go back</string>
+    <string name="overlay_action_snooze">Snooze for %1$d min</string>
+    <string name="overlay_action_continue">Continue</string>
+    <string name="overlay_action_continue_in">Continue in %1$d s</string>
+    <string name="overlay_action_end_focus">End focus session</string>
+</resources>
