@@ -59,25 +59,19 @@ class NativeStore private constructor(context: Context) {
         return result
     }
 
-    fun snooze(ruleId: String, untilMs: Long) {
-        val current = snoozes()
-        val obj = JSONObject()
-        current.forEach { (id, until) -> obj.put(id, until) }
-        obj.put(ruleId, untilMs)
-        prefs.edit().putString(KEY_SNOOZES, obj.toString()).apply()
-    }
-
     fun clearSnooze(ruleId: String) {
         val obj = JSONObject()
         snoozes().filterKeys { it != ruleId }.forEach { (id, until) -> obj.put(id, until) }
         prefs.edit().putString(KEY_SNOOZES, obj.toString()).apply()
     }
 
-    fun endFocus(focusId: String, atMs: Long) {
-        prefs.edit()
-            .putString(KEY_FOCUS_ENDED_ID, focusId)
-            .putLong(KEY_FOCUS_ENDED_AT, atMs)
-            .apply()
+    /** Set while the bank guard has the accessibility service turned off. */
+    fun isBankPaused(): Boolean = prefs.getBoolean(KEY_BANK_PAUSED, false)
+
+    fun setBankPaused(paused: Boolean) {
+        // Committed synchronously: the process may die right after the
+        // accessibility service turns itself off.
+        prefs.edit().putBoolean(KEY_BANK_PAUSED, paused).commit()
     }
 
     fun endedFocusId(): String? = prefs.getString(KEY_FOCUS_ENDED_ID, null)
@@ -142,6 +136,7 @@ class NativeStore private constructor(context: Context) {
         const val KEY_FOCUS_ENDED_ID = "focus_ended_id"
         const val KEY_FOCUS_ENDED_AT = "focus_ended_at"
         const val KEY_EVENTS = "events"
+        const val KEY_BANK_PAUSED = "bank_paused"
         const val MAX_EVENTS = 2000
         const val EVENT_RETENTION_MS = 30L * 24 * 60 * 60 * 1000
 

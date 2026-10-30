@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.inputmethod.InputMethodManager
 import dev.openblock.app.accessibility.adapters.FeedAdapters
 import dev.openblock.app.accessibility.adapters.recycleCompat
+import dev.openblock.app.bank.BankGuard
 import dev.openblock.app.engine.BlockMode
 import dev.openblock.app.engine.BlockRule
 import dev.openblock.app.engine.DecisionAction
@@ -23,6 +24,9 @@ import java.time.LocalDateTime
 
 /**
  * Enforces the rules synced from Flutter.
+ *
+ * Banking apps: when the user opted in, the service turns itself off while a
+ * listed banking app is in front; see [BankGuard].
  *
  * Privacy: the service only looks at the package name of the foreground app.
  * For apps with an enabled feed rule it also asks the adapter whether views
@@ -80,6 +84,14 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
         store.prefs.registerOnSharedPreferenceChangeListener(prefsListener)
         updateServiceInfo()
         isConnected = true
+        // Enforce for the app already on screen, e.g. when the bank guard
+        // turns the service back on because an app with rules was opened.
+        handler.post {
+            val root = rootInActiveWindow
+            val pkg = root?.packageName?.toString()
+            root?.recycleCompat()
+            if (pkg != null) onWindowChanged(pkg)
+        }
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
@@ -146,6 +158,10 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
         val activePackage = root?.packageName?.toString()
         root?.recycleCompat()
         val current = activePackage?.takeIf { it !in ignoredPackages } ?: eventPackage
+        if (current in store.config().bankPackages && BankGuard.pause(this)) {
+            overlay.hide()
+            return
+        }
         if (current != foreground) {
             foreground?.let { acknowledged.remove(it) }
             foreground = current
@@ -256,7 +272,6 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
             appLabel = appLabel(pkg),
             focusId = if (byFocus) ctx.focus?.id else null,
             countdownSeconds = config.pauseSeconds,
-            snoozeMinutes = config.snoozeMinutes,
             customMessage = config.pauseMessage,
         )
         overlay.show(spec, this)
@@ -286,19 +301,9 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
         handler.postDelayed({ evaluate() }, LEAVE_RECHECK_MS)
     }
 
-    override fun onSnooze(spec: InterventionOverlay.Spec) {
-        overlay.hide()
-        store.snooze(spec.ruleId, System.currentTimeMillis() + spec.snoozeMinutes * 60_000L)
-    }
-
     override fun onContinue(spec: InterventionOverlay.Spec) {
         acknowledged.add(spec.packageName)
         overlay.hide()
-    }
-
-    override fun onEndFocus(spec: InterventionOverlay.Spec) {
-        overlay.hide()
-        spec.focusId?.let { store.endFocus(it, System.currentTimeMillis()) }
     }
 
     companion object {

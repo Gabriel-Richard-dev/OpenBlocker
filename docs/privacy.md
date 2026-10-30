@@ -21,7 +21,7 @@ the app handles.
 | Rules, settings, focus sessions (start, end, rules) | App storage (Jetpack DataStore) | Until you delete them |
 | Last configuration synced to the enforcement service | Private SharedPreferences | Until you delete all data or uninstall |
 | Intervention events: time, rule id, app package name, kind (block/limit/focus/feed/pause) | Private SharedPreferences | 30 days, at most 2,000 entries |
-| Snoozes set from the intervention screen | Private SharedPreferences | Until they expire |
+| Whether the bank guard currently has the service turned off | Private SharedPreferences | Until blocking is back on |
 
 Android cloud backup and device-to-device transfer are disabled for OpenBlock,
 so this data is not copied to Google's servers. Use **Settings › Your data ›

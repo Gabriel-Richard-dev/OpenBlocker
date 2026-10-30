@@ -9,6 +9,7 @@ import android.os.Looper
 import android.provider.Settings
 import dev.openblock.app.accessibility.ServiceStatus
 import dev.openblock.app.apps.InstalledApps
+import dev.openblock.app.bank.BankGuard
 import dev.openblock.app.storage.NativeStore
 import dev.openblock.app.usage.UsageReader
 import io.flutter.plugin.common.BinaryMessenger
@@ -48,6 +49,7 @@ class PlatformChannel(
                     "accessibilityEnabled" to ServiceStatus.isEnabledInSettings(context),
                     "accessibilityRunning" to ServiceStatus.isRunning(context),
                     "usageAccessGranted" to usage.hasPermission(),
+                    "secureSettingsGranted" to BankGuard.hasSecureSettingsPermission(context),
                     "sdkInt" to Build.VERSION.SDK_INT,
                 ),
             )

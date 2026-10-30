@@ -26,6 +26,7 @@ network access.
 | Daily limit | Blocks the app once today's usage, **measured by Android**, reaches your limit. |
 | Block feed | Blocks only a feed inside an app — YouTube Shorts and Instagram Reels for now (experimental). |
 | Pause screen | Shows a short countdown before you can continue into an app. |
+| Progress widget | Home screen widget with today's screen time, the change against your usual and the last seven days. |
 | Exceptions | Allows an app at specific times, overriding other rules. |
 | Focus sessions | 25/45/60 minutes or custom; the rules you pick stay active until the timer ends. Survives restarts and reboots. |
 | Presets | Study Mode, No Shorts, Social Media Limit, Deep Focus and Custom. |
@@ -38,8 +39,18 @@ When a rule triggers, OpenBlock shows a calm, full-screen intervention:
 >
 > Want to go back to what you were doing?
 
-You can go back, snooze the rule for a few minutes or end the focus session.
-OpenBlock never hides the system settings or locks you out of your own device.
+The only way out is back (or home). There is deliberately no snooze and no
+"end focus" button on this screen: rules can be paused and focus sessions ended
+from inside OpenBlock, where it takes a conscious decision. OpenBlock never
+hides the system settings or locks you out of your own device.
+
+Some banking apps refuse to open while any third-party accessibility service is
+on. With **Settings › Banking apps**, OpenBlock turns its service off while a
+listed banking app is open and back on as soon as you open an app with rules.
+This needs a one-time ADB grant; see [docs/permissions.md](docs/permissions.md#banking-apps).
+
+A home screen **widget** shows today's screen time compared with your usual by
+this time of day, plus the last seven days.
 
 The UI is available in English and Brazilian Portuguese.
 

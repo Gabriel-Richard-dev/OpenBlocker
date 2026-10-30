@@ -118,7 +118,7 @@
   "rulesEmptyMessage": "Start from a preset above or create your own rule with the button below.",
   "exceptionsEmptyMessage": "Exceptions allow an app at specific times, overriding other rules. Create one by choosing “Exception” as the rule type.",
   "precedenceTitle": "How rules combine",
-  "precedenceBody": "When several rules apply to the same app, OpenBlock decides in this order:\n\n1. Disabled, paused or snoozed rules are ignored.\n2. An active exception allows the app and overrides every other rule.\n3. A scheduled block, or a rule activated by a focus session, blocks the whole app.\n4. A daily limit blocks the app once today's measured usage reaches it.\n5. A feed block hides only the selected feeds.\n6. A pause screen asks you to wait a few seconds before continuing.\n\nIf two rules of the same type apply, the one listed first wins.",
+  "precedenceBody": "When several rules apply to the same app, OpenBlock decides in this order:\n\n1. Disabled or paused rules are ignored.\n2. An active exception allows the app and overrides every other rule.\n3. A scheduled block, or a rule activated by a focus session, blocks the whole app.\n4. A daily limit blocks the app once today's measured usage reaches it.\n5. A feed block hides only the selected feeds.\n6. A pause screen asks you to wait a few seconds before continuing.\n\nIf two rules of the same type apply, the one listed first wins.",
   "pauseFor": "Pause for {minutes} min",
   "@pauseFor": {
     "placeholders": {
@@ -347,6 +347,24 @@
   "settingsAppearance": "Appearance",
   "settingsIntervention": "Pause and block screen",
   "settingsPrivacy": "Privacy",
+  "settingsBanking": "Banking apps",
+  "bankGuardTitle": "Pause OpenBlock in banking apps",
+  "bankGuardSubtitle": "Some banks refuse to open while an accessibility service is on. OpenBlock turns itself off while a banking app is open and comes back as soon as you open an app with rules or OpenBlock itself.",
+  "bankAppsTitle": "Banking apps",
+  "bankAppsCount": "{count, plural, =0{No apps} =1{1 app} other{{count} apps}}",
+  "@bankAppsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "bankAppsAdd": "Add app",
+  "bankAppsEmpty": "No banking apps",
+  "bankGuardSetupTitle": "One-time setup from a computer",
+  "bankGuardSetupMessage": "To turn blocking back on by itself, OpenBlock needs a permission that Android only grants through ADB. Connect the phone with USB debugging on and run:",
+  "bankGuardNeedsUsage": "It also needs usage access, to notice when you leave the banking app.",
+  "copyCommand": "Copy command",
   "settingsData": "Your data",
   "settingsAbout": "About",
   "permissionsTitle": "Permissions",
@@ -354,7 +372,6 @@
   "themeSystem": "System",
   "themeLight": "Light",
   "themeDark": "Dark",
-  "snoozeLength": "Snooze length",
   "pauseLength": "Pause countdown",
   "pauseMessage": "Message",
   "pauseMessageDefault": "Want to go back to what you were doing?",

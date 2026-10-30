@@ -3,13 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/version.dart';
+import '../../core/bank_apps.dart';
 import '../../core/widgets/common.dart';
 import '../../data/backup.dart';
+import '../../data/models/platform_models.dart';
 import '../../data/providers.dart';
 import '../../l10n/l10n.dart';
 import '../focus/focus_controller.dart';
 import '../rules/rules_controller.dart';
 import '../statistics/statistics.dart';
+import 'bank_apps_screen.dart';
 import 'permissions_screen.dart';
 import 'privacy_screen.dart';
 import 'settings_controller.dart';
@@ -22,6 +25,7 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final settings = ref.watch(settingsProvider);
     final controller = ref.read(settingsProvider.notifier);
+    final permissions = ref.watch(permissionsProvider).value;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.tabSettings)),
@@ -70,31 +74,6 @@ class SettingsScreen extends ConsumerWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: const Icon(Icons.snooze_rounded),
-                  title: Text(l10n.snoozeLength),
-                  trailing: DropdownButton<int>(
-                    value: settings.snoozeMinutes,
-                    underline: const SizedBox.shrink(),
-                    items: [
-                      for (final minutes in {
-                        1,
-                        5,
-                        10,
-                        15,
-                        30,
-                        settings.snoozeMinutes,
-                      })
-                        DropdownMenuItem(
-                          value: minutes,
-                          child: Text(l10n.minutesShort(minutes)),
-                        ),
-                    ],
-                    onChanged: (value) {
-                      if (value != null) controller.setSnoozeMinutes(value);
-                    },
-                  ),
-                ),
-                ListTile(
                   leading: const Icon(Icons.timer_outlined),
                   title: Text(l10n.pauseLength),
                   trailing: DropdownButton<int>(
@@ -130,6 +109,39 @@ class SettingsScreen extends ConsumerWidget {
               ],
             ),
           ),
+          SectionHeader(l10n.settingsBanking),
+          Card(
+            child: Column(
+              children: [
+                SwitchListTile(
+                  secondary: const Icon(Icons.account_balance_outlined),
+                  title: Text(l10n.bankGuardTitle),
+                  subtitle: Text(l10n.bankGuardSubtitle),
+                  value: settings.bankGuardEnabled,
+                  onChanged: controller.setBankGuardEnabled,
+                ),
+                ListTile(
+                  leading: const Icon(Icons.list_alt_rounded),
+                  title: Text(l10n.bankAppsTitle),
+                  subtitle: Text(
+                    l10n.bankAppsCount(settings.bankPackages.length),
+                  ),
+                  trailing: const Icon(Icons.chevron_right_rounded),
+                  enabled: settings.bankGuardEnabled,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => const BankAppsScreen(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (settings.bankGuardEnabled &&
+              permissions != null &&
+              permissions.platformSupported &&
+              !permissions.bankGuardReady)
+            _BankGuardSetup(permissions: permissions),
           SectionHeader(l10n.settingsPrivacy),
           Card(
             child: ListTile(
@@ -332,5 +344,72 @@ class SettingsScreen extends ConsumerWidget {
     ref.invalidate(runtimeStateProvider);
     // Resetting settings last returns the app to onboarding.
     ref.read(settingsProvider.notifier).reset();
+  }
+}
+
+/// Explains the one-time ADB grant the bank guard needs.
+class _BankGuardSetup extends ConsumerWidget {
+  const _BankGuardSetup({required this.permissions});
+
+  final PermissionSnapshot permissions;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    return InfoCard(
+      color: theme.colorScheme.tertiaryContainer,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.bankGuardSetupTitle, style: theme.textTheme.titleSmall),
+          if (!permissions.secureSettingsGranted) ...[
+            const SizedBox(height: 4),
+            Text(l10n.bankGuardSetupMessage),
+            const SizedBox(height: 8),
+            const Text(
+              BankApps.adbGrantCommand,
+              style: TextStyle(fontFamily: 'monospace'),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                icon: const Icon(Icons.copy_rounded),
+                label: Text(l10n.copyCommand),
+                onPressed: () async {
+                  final messenger = ScaffoldMessenger.of(context);
+                  await Clipboard.setData(
+                    const ClipboardData(text: BankApps.adbGrantCommand),
+                  );
+                  messenger.showSnackBar(
+                    SnackBar(content: Text(l10n.copiedToClipboard)),
+                  );
+                },
+              ),
+            ),
+          ],
+          if (!permissions.usageAccessGranted) ...[
+            const SizedBox(height: 4),
+            Text(l10n.bankGuardNeedsUsage),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () =>
+                    ref.read(platformProvider).openUsageAccessSettings(),
+                child: Text(l10n.openSystemSettings),
+              ),
+            ),
+          ],
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              icon: const Icon(Icons.refresh_rounded),
+              label: Text(l10n.refreshStatus),
+              onPressed: () => ref.invalidate(permissionsProvider),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

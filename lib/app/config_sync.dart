@@ -22,9 +22,11 @@ Map<String, Object?> buildNativeConfig({
   'version': nativeConfigVersion,
   'rules': [for (final rule in rules) rule.toJson()],
   'focus': focus?.toJson(),
-  'snoozeMinutes': settings.snoozeMinutes,
   'pauseSeconds': settings.pauseSeconds,
   'pauseMessage': settings.pauseMessage,
+  'bankPackages': settings.bankGuardEnabled
+      ? settings.bankPackages
+      : const <String>[],
 };
 
 /// Pushes the configuration to the native service whenever rules, the focus

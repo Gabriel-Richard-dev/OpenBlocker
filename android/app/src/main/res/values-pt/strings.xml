@@ -19,8 +19,21 @@
     <string name="overlay_question">Quer voltar ao que estava fazendo?</string>
     <string name="overlay_action_home">Ir para a tela inicial</string>
     <string name="overlay_action_back">Voltar</string>
-    <string name="overlay_action_snooze">Adiar por %1$d min</string>
     <string name="overlay_action_continue">Continuar</string>
     <string name="overlay_action_continue_in">Continuar em %1$d s</string>
-    <string name="overlay_action_end_focus">Encerrar sessão de foco</string>
+
+    <string name="bank_guard_channel">Pausa para apps de banco</string>
+    <string name="bank_guard_title">OpenBlock pausado para o app do banco</string>
+    <string name="bank_guard_text">O bloqueio volta quando você abrir um app com regra. Toque para religar agora.</string>
+
+    <string name="widget_label">Tempo de tela hoje</string>
+    <string name="widget_description">Seu tempo de tela hoje comparado com o seu normal até este horário.</string>
+    <string name="widget_minutes">%1$d min</string>
+    <string name="widget_hours_minutes">%1$d h %2$d min</string>
+    <string name="widget_trend_down">↓ %1$d%% menos que o normal até agora</string>
+    <string name="widget_trend_up">↑ %1$d%% mais que o normal até agora</string>
+    <string name="widget_trend_same">Igual ao seu normal até agora</string>
+    <string name="widget_no_history">Ainda sem histórico suficiente</string>
+    <string name="widget_no_permission">Permita o acesso ao uso no OpenBlock</string>
+    <string name="widget_chart_caption">Últimos 7 dias</string>
 </resources>

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:openblock/core/bank_apps.dart';
 import 'package:openblock/data/backup.dart';
 import 'package:openblock/data/models/app_settings.dart';
 import 'package:openblock/data/models/block_rule.dart';
@@ -118,13 +119,16 @@ void main() {
     const settings = AppSettings(
       onboardingCompleted: true,
       themeMode: ThemeMode.dark,
-      snoozeMinutes: 10,
       pauseSeconds: 20,
       pauseMessage: 'Breathe',
       defaultFocusMinutes: 45,
+      bankGuardEnabled: false,
+      bankPackages: ['com.example.bank'],
     );
     expect(AppSettings.fromJson(settings.toJson()), settings);
     expect(AppSettings.fromJson(const {}), const AppSettings());
+    expect(const AppSettings().bankPackages, BankApps.defaults);
+    expect(const AppSettings().bankGuardEnabled, isTrue);
     expect(settings.copyWith(clearPauseMessage: true).pauseMessage, isNull);
   });
 
@@ -134,9 +138,12 @@ void main() {
         'accessibilityEnabled': true,
         'accessibilityRunning': false,
         'usageAccessGranted': false,
+        'secureSettingsGranted': true,
         'sdkInt': 34,
       });
       expect(snapshot.accessibilityStopped, isTrue);
+      expect(snapshot.secureSettingsGranted, isTrue);
+      expect(snapshot.bankGuardReady, isFalse);
       expect(snapshot.mayNeedRestrictedSettings, isTrue);
       expect(PermissionSnapshot.unsupported.platformSupported, isFalse);
     });
@@ -170,12 +177,12 @@ void main() {
   group('Backup', () {
     test('round-trip keeps rules and settings but not onboarding', () {
       const backup = Backup(
-        settings: AppSettings(onboardingCompleted: true, snoozeMinutes: 15),
+        settings: AppSettings(onboardingCompleted: true, pauseSeconds: 15),
         rules: [rule],
       );
       final decoded = Backup.decode(backup.encode());
       expect(decoded.rules, [rule]);
-      expect(decoded.settings.snoozeMinutes, 15);
+      expect(decoded.settings.pauseSeconds, 15);
       expect(decoded.settings.onboardingCompleted, isFalse);
     });
 

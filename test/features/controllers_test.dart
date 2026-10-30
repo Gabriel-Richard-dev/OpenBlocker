@@ -188,10 +188,8 @@ void main() {
     test('clamps values and resets', () async {
       final container = await makeContainer();
       final settings = container.read(settingsProvider.notifier)
-        ..setSnoozeMinutes(500)
         ..setPauseSeconds(-3)
         ..setPauseMessage('   ');
-      expect(container.read(settingsProvider).snoozeMinutes, 60);
       expect(container.read(settingsProvider).pauseSeconds, 0);
       expect(container.read(settingsProvider).pauseMessage, isNull);
       settings.completeOnboarding();
@@ -219,8 +217,14 @@ void main() {
       expect(focus['id'], session.id);
       expect(focus['activeRuleIds'], ['r1']);
 
-      container.read(settingsProvider.notifier).setSnoozeMinutes(15);
-      expect(platform.lastConfig!['snoozeMinutes'], 15);
+      final settings = container.read(settingsProvider.notifier)
+        ..removeBankPackage('com.nu.production')
+        ..addBankPackage('com.example.bank');
+      final banks = platform.lastConfig!['bankPackages']! as List<Object?>;
+      expect(banks, isNot(contains('com.nu.production')));
+      expect(banks.last, 'com.example.bank');
+      settings.setBankGuardEnabled(false);
+      expect(platform.lastConfig!['bankPackages'], isEmpty);
       expect(platform.lastConfig!['version'], nativeConfigVersion);
     });
 

@@ -35,9 +35,10 @@ The service only runs this check when:
 When Shorts are detected, the feed intervention appears with:
 
 - **Go back** — hides the screen and sends the system back action, which leaves
-  the Shorts player;
-- **Snooze** — disables the rule for the configured number of minutes;
-- **End focus session** — only when the rule is active because of a session.
+  the Shorts player.
+
+There is no snooze or end-focus button; the rule can be paused from the Rules
+screen in OpenBlock.
 
 ## What keeps working
 
@@ -66,7 +67,7 @@ two manufacturers and record the results in [tested-devices.md](../tested-device
 5. Play a regular video, search, open subscriptions and the library: no
    intervention.
 6. Rotate the device and use split-screen: behaviour is the same.
-7. Snooze the rule: Shorts work until the snooze ends.
+7. Pause the rule from the Rules screen: Shorts work until the pause ends.
 8. Repeat after a YouTube update.
 
 Record the YouTube version (Settings › Apps › YouTube) with each report.

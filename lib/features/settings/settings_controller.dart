@@ -26,9 +26,6 @@ class SettingsController extends Notifier<AppSettings> {
 
   void setThemeMode(ThemeMode mode) => _set(state.copyWith(themeMode: mode));
 
-  void setSnoozeMinutes(int minutes) =>
-      _set(state.copyWith(snoozeMinutes: minutes.clamp(1, 60)));
-
   void setPauseSeconds(int seconds) =>
       _set(state.copyWith(pauseSeconds: seconds.clamp(0, 60)));
 
@@ -43,6 +40,23 @@ class SettingsController extends Notifier<AppSettings> {
 
   void setDefaultFocusMinutes(int minutes) =>
       _set(state.copyWith(defaultFocusMinutes: minutes.clamp(1, 600)));
+
+  void setBankGuardEnabled(bool enabled) =>
+      _set(state.copyWith(bankGuardEnabled: enabled));
+
+  void addBankPackage(String packageName) {
+    if (state.bankPackages.contains(packageName)) return;
+    _set(state.copyWith(bankPackages: [...state.bankPackages, packageName]));
+  }
+
+  void removeBankPackage(String packageName) => _set(
+    state.copyWith(
+      bankPackages: [
+        for (final p in state.bankPackages)
+          if (p != packageName) p,
+      ],
+    ),
+  );
 
   /// Replaces all settings, e.g. after an import. Onboarding state is kept.
   void replace(AppSettings settings) =>

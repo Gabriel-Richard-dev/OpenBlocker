@@ -28,9 +28,9 @@ object ConfigParser {
     fun parseConfig(obj: JSONObject): OpenBlockConfig = OpenBlockConfig(
         rules = parseRules(obj.optJSONArray("rules")),
         focus = obj.optJSONObject("focus")?.let(::parseFocus),
-        snoozeMinutes = obj.optInt("snoozeMinutes", 5),
         pauseSeconds = obj.optInt("pauseSeconds", 10),
         pauseMessage = obj.optStringOrNull("pauseMessage"),
+        bankPackages = obj.optJSONArray("bankPackages").toStringList().toSet(),
     )
 
     fun parseRules(array: JSONArray?): List<BlockRule> {

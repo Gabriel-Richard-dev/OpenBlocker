@@ -8,6 +8,7 @@ class PermissionSnapshot {
     required this.accessibilityEnabled,
     required this.accessibilityRunning,
     required this.usageAccessGranted,
+    this.secureSettingsGranted = false,
     this.sdkInt,
   });
 
@@ -17,6 +18,7 @@ class PermissionSnapshot {
       accessibilityEnabled: map['accessibilityEnabled'] as bool? ?? false,
       accessibilityRunning: map['accessibilityRunning'] as bool? ?? false,
       usageAccessGranted: map['usageAccessGranted'] as bool? ?? false,
+      secureSettingsGranted: map['secureSettingsGranted'] as bool? ?? false,
       sdkInt: (map['sdkInt'] as num?)?.toInt(),
     );
   }
@@ -37,6 +39,10 @@ class PermissionSnapshot {
   /// but not running, e.g. after a crash or when killed by the system.
   final bool accessibilityRunning;
   final bool usageAccessGranted;
+
+  /// WRITE_SECURE_SETTINGS, granted through ADB, which the bank guard needs
+  /// to turn the accessibility service back on.
+  final bool secureSettingsGranted;
   final int? sdkInt;
 
   /// Android 13+ blocks accessibility for side-loaded apps until the user
@@ -45,6 +51,10 @@ class PermissionSnapshot {
 
   bool get accessibilityStopped =>
       accessibilityEnabled && !accessibilityRunning;
+
+  /// The bank guard also needs usage access to notice when to turn the
+  /// service back on.
+  bool get bankGuardReady => secureSettingsGranted && usageAccessGranted;
 }
 
 @immutable

@@ -19,8 +19,21 @@
     <string name="overlay_question">Want to go back to what you were doing?</string>
     <string name="overlay_action_home">Go to home screen</string>
     <string name="overlay_action_back">Go back</string>
-    <string name="overlay_action_snooze">Snooze for %1$d min</string>
     <string name="overlay_action_continue">Continue</string>
     <string name="overlay_action_continue_in">Continue in %1$d s</string>
-    <string name="overlay_action_end_focus">End focus session</string>
+
+    <string name="bank_guard_channel">Paused for banking apps</string>
+    <string name="bank_guard_title">OpenBlock is paused for your banking app</string>
+    <string name="bank_guard_text">Blocking comes back when you open an app with rules. Tap to turn it back on now.</string>
+
+    <string name="widget_label">Screen time today</string>
+    <string name="widget_description">Your screen time today compared with your usual by this time of day.</string>
+    <string name="widget_minutes">%1$d min</string>
+    <string name="widget_hours_minutes">%1$d h %2$d min</string>
+    <string name="widget_trend_down">↓ %1$d%% less than usual by now</string>
+    <string name="widget_trend_up">↑ %1$d%% more than usual by now</string>
+    <string name="widget_trend_same">About your usual by now</string>
+    <string name="widget_no_history">Not enough history yet</string>
+    <string name="widget_no_permission">Allow usage access in OpenBlock</string>
+    <string name="widget_chart_caption">Last 7 days</string>
 </resources>

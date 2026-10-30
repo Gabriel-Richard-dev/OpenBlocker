@@ -40,7 +40,7 @@ class UsageReader(private val context: Context) {
         if (!hasPermission()) return null
         val zone = ZoneId.systemDefault()
         val start = LocalDate.now(zone).atStartOfDay(zone).toInstant().toEpochMilli()
-        val totals = foregroundMs(start, nowMs, setOf(packageName)) ?: return null
+        val totals = foregroundMs(start, nowMs) { it == packageName } ?: return null
         return ((totals[packageName] ?: 0L) / 60_000L).toInt()
     }
 
@@ -57,9 +57,32 @@ class UsageReader(private val context: Context) {
             val day = today.minusDays(offset.toLong())
             val start = day.atStartOfDay(zone).toInstant().toEpochMilli()
             val end = minOf(day.plusDays(1).atStartOfDay(zone).toInstant().toEpochMilli(), nowMs)
-            val totals = foregroundMs(start, end, packages) ?: emptyMap()
+            val totals = foregroundMs(start, end) { it in packages } ?: emptyMap()
             day to totals.mapValues { (it.value / 60_000L).toInt() }
         }
+    }
+
+    /**
+     * Total foreground time of every app except [excluded] (launchers, for
+     * example), or null without permission.
+     */
+    fun screenTimeMs(startMs: Long, endMs: Long, excluded: Set<String>): Long? =
+        foregroundMs(startMs, endMs) { it !in excluded }?.values?.sum()
+
+    /** The app most recently brought to the front between the two instants. */
+    fun lastResumedPackage(startMs: Long, endMs: Long): String? {
+        val events = try {
+            manager?.queryEvents(startMs, endMs) ?: return null
+        } catch (_: SecurityException) {
+            return null
+        }
+        var last: String? = null
+        val event = UsageEvents.Event()
+        while (events.hasNextEvent()) {
+            events.getNextEvent(event)
+            if (event.eventType == RESUMED) last = event.packageName
+        }
+        return last
     }
 
     /**
@@ -67,7 +90,7 @@ class UsageReader(private val context: Context) {
      * already in the foreground at [startMs] is counted from [startMs]; one
      * still in the foreground at [endMs] is counted until [endMs].
      */
-    private fun foregroundMs(startMs: Long, endMs: Long, packages: Set<String>): Map<String, Long>? {
+    private fun foregroundMs(startMs: Long, endMs: Long, include: (String) -> Boolean): Map<String, Long>? {
         if (endMs <= startMs) return emptyMap()
         val events = try {
             manager?.queryEvents(startMs, endMs) ?: return null
@@ -81,7 +104,7 @@ class UsageReader(private val context: Context) {
         while (events.hasNextEvent()) {
             events.getNextEvent(event)
             val pkg = event.packageName ?: continue
-            if (pkg !in packages) continue
+            if (!include(pkg)) continue
             when (event.eventType) {
                 RESUMED -> {
                     seen.add(pkg)

@@ -44,9 +44,10 @@ data class FocusSession(
 data class OpenBlockConfig(
     val rules: List<BlockRule> = emptyList(),
     val focus: FocusSession? = null,
-    val snoozeMinutes: Int = 5,
     val pauseSeconds: Int = 10,
     val pauseMessage: String? = null,
+    /** Banking apps the service steps aside for; empty when the guard is off. */
+    val bankPackages: Set<String> = emptySet(),
 ) {
     val packages: Set<String> by lazy { rules.mapTo(mutableSetOf()) { it.packageName } }
 

@@ -3,8 +3,9 @@
 Several rules can target the same app. For every app on screen, OpenBlock
 evaluates its rules in this order and stops at the first match:
 
-1. **Ignored rules.** A rule is skipped when it is disabled, temporarily paused
-   from the Rules screen, or snoozed from the intervention screen.
+1. **Ignored rules.** A rule is skipped when it is disabled or temporarily
+   paused from the Rules screen. (Snoozes written by 0.1.0 are honoured until
+   they expire.)
 2. **Exceptions win.** If an active *Exception* (`allowException`) exists for
    the app, the app is allowed and no other rule applies — not even a focus
    session.

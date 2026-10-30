@@ -30,7 +30,7 @@ class ConfigParserTest {
               ],
               "focus": {"id": "f", "startedAtMs": 1, "plannedEndAtMs": 2,
                         "activeRuleIds": ["a"], "completed": false, "endedAtMs": null},
-              "snoozeMinutes": 15,
+              "bankPackages": ["com.nu.production"],
               "pauseSeconds": 3,
               "pauseMessage": null
             }
@@ -46,7 +46,7 @@ class ConfigParserTest {
         assertNull(rule.pausedUntilMs)
         assertEquals("f", config.focus?.id)
         assertEquals(listOf("a"), config.focus?.activeRuleIds)
-        assertEquals(15, config.snoozeMinutes)
+        assertEquals(setOf("com.nu.production"), config.bankPackages)
         assertEquals(3, config.pauseSeconds)
         assertNull(config.pauseMessage)
         assertEquals(setOf("p"), config.packages)

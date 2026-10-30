@@ -27,6 +27,10 @@ import dev.openblock.app.R
  * The window is not focusable: the system back and home gestures still reach
  * the app underneath, which means the user can always leave. Nothing on this
  * screen hides or locks the device settings.
+ *
+ * Blocks deliberately offer no snooze and no way to end a focus session from
+ * here: a one-tap escape defeats the rule. Rules can still be paused or
+ * focus sessions ended from inside OpenBlock.
  */
 class InterventionOverlay(private val service: AccessibilityService) {
     enum class Kind(val eventName: String) {
@@ -45,7 +49,6 @@ class InterventionOverlay(private val service: AccessibilityService) {
         val appLabel: String,
         val focusId: String?,
         val countdownSeconds: Int,
-        val snoozeMinutes: Int,
         val customMessage: String?,
     ) {
         /** Identity of the screen; a new key means a new intervention. */
@@ -54,9 +57,7 @@ class InterventionOverlay(private val service: AccessibilityService) {
 
     interface Listener {
         fun onLeave(spec: Spec)
-        fun onSnooze(spec: Spec)
         fun onContinue(spec: Spec)
-        fun onEndFocus(spec: Spec)
     }
 
     private val windowManager = service.getSystemService(WindowManager::class.java)
@@ -195,19 +196,6 @@ class InterventionOverlay(private val service: AccessibilityService) {
             }
             column.addView(continueButton)
             startCountdown(continueButton, spec.countdownSeconds)
-        } else if (spec.snoozeMinutes > 0) {
-            column.addView(
-                button(res.getString(R.string.overlay_action_snooze, spec.snoozeMinutes), false) {
-                    listener.onSnooze(spec)
-                },
-            )
-        }
-        if (spec.focusId != null) {
-            column.addView(
-                button(res.getString(R.string.overlay_action_end_focus), false) {
-                    listener.onEndFocus(spec)
-                },
-            )
         }
 
         val scroll = ScrollView(service).apply {

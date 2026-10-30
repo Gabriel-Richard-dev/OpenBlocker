@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#2E7D6B</color>
+
+    <!-- Progress widget; same palette as the intervention screen. -->
+    <color name="widget_background">#F6F7F6</color>
+    <color name="widget_text">#1A1C1B</color>
+    <color name="widget_muted">#525B57</color>
+    <color name="widget_accent">#2E7D6B</color>
+    <color name="widget_bar">#C9D1CD</color>
+    <color name="widget_good">#2E7D6B</color>
+    <color name="widget_bad">#B3261E</color>
 </resources>

@@ -59,9 +59,10 @@ layout was kept instead because platform code is already isolated under
   native side (`syncConfig`). The native store keeps the last config so the
   service works while the Flutter UI is not running, including after a reboot.
 - **Native runtime state** is written by the service and read back by Flutter
-  through `getRuntimeState`: snoozes set from the intervention screen, a focus
-  session ended from the intervention screen, and intervention events used for
-  statistics (30 days, at most 2,000 entries, no screen content).
+  through `getRuntimeState`: intervention events used for statistics (30 days,
+  at most 2,000 entries, no screen content). Snoozes and the ended-focus marker
+  are still read so state written by 0.1.0 expires cleanly, but the
+  intervention screen no longer sets them.
 
 Native storage uses plain `SharedPreferences` instead of DataStore because the
 service needs synchronous reads when an accessibility event arrives and the
@@ -105,8 +106,36 @@ precedence is described in [rule-precedence.md](rule-precedence.md).
 
 The intervention is a `TYPE_ACCESSIBILITY_OVERLAY` window. It is not
 focusable, so the system back/home gestures still reach the app below and the
-user can always leave. Actions: go home (or back, for feeds), snooze the rule,
-continue (pause screen, after the countdown) and end the focus session.
+user can always leave. Actions: go home (or back, for feeds) and continue
+(pause screen only, after the countdown). There is deliberately no snooze or
+end-focus action: a one-tap escape defeats the rule.
+
+## Bank guard
+
+Many banking apps refuse to run while a third-party accessibility service is
+enabled. When the user opts in (Settings › Banking apps) and has granted
+`WRITE_SECURE_SETTINGS` through ADB plus usage access:
+
+1. The service sees a listed banking app come to the front, starts
+   `BankGuardService` (a foreground service) and calls `disableSelf()`.
+2. `BankGuardService` polls usage events once per second (not while the screen
+   is off) for the next app brought to the front.
+3. When that app has an enabled rule, it re-adds the service to
+   `Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES` and stops. Opening
+   OpenBlock does the same. Apps without rules keep the service off, so going
+   back to the bank does not trigger it again.
+
+Without both permissions the guard does nothing and the service stays on. A
+banking app that checks before the service turns itself off may still complain
+on the first launch; opening it again works.
+
+## Progress widget
+
+`ProgressWidget` is a home screen widget rendered with `RemoteViews`. It reads
+usage events for every app except launchers, System UI and OpenBlock and shows
+today's screen time, the change against the average of the previous seven days
+up to the same time of day, and seven daily bars. It refreshes every 30 minutes
+(the platform minimum) and whenever OpenBlock is opened. Nothing is stored.
 
 ## Method channel contract
 
@@ -114,7 +143,7 @@ Channel: `dev.openblock.app/platform`. All calls are local.
 
 | Method | Arguments | Result |
 |---|---|---|
-| `getPermissions` | — | `{accessibilityEnabled, accessibilityRunning, usageAccessGranted, sdkInt}` |
+| `getPermissions` | — | `{accessibilityEnabled, accessibilityRunning, usageAccessGranted, secureSettingsGranted, sdkInt}` |
 | `openAccessibilitySettings` | — | opens system settings |
 | `openUsageAccessSettings` | — | opens system settings |
 | `openAppDetailsSettings` | — | opens OpenBlock's app info (restricted settings) |
@@ -144,11 +173,13 @@ Config document (`version` 1):
     "id": "…", "startedAtMs": 0, "plannedEndAtMs": 0,
     "activeRuleIds": ["…"], "completed": false, "endedAtMs": null
   },
-  "snoozeMinutes": 5,
   "pauseSeconds": 10,
-  "pauseMessage": null
+  "pauseMessage": null,
+  "bankPackages": ["com.nu.production", "com.itau"]
 }
 ```
+
+`bankPackages` is empty when the bank guard is turned off.
 
 `mode` is one of `appLimit`, `scheduledBlock`, `selectiveFeed`, `pauseScreen`,
 `allowException`. Unknown modes are ignored by the native parser.

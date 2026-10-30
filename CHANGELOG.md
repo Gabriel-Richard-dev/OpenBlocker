@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- **Bank guard**: OpenBlock turns its accessibility service off while a listed
+  banking app (Nubank, Itaú, Banco do Brasil and others, editable) is open, and
+  back on when an app with rules or OpenBlock is opened. Needs a one-time
+  `WRITE_SECURE_SETTINGS` grant through ADB.
+- **Progress widget** for the home screen: today's screen time, the change
+  against your usual by this time of day and the last seven days.
+
+### Removed
+
+- The **Snooze** and **End focus session** buttons on the intervention screen,
+  and the snooze length setting. They made every block a one-tap escape. Rules
+  can still be paused and focus sessions ended from inside OpenBlock.
+
 ## [0.1.0] - 2026-10-28
 
 First public pre-release (MVP) for Android 8.0+.
