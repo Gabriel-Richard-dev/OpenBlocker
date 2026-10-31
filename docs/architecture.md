@@ -108,7 +108,13 @@ The intervention is a `TYPE_ACCESSIBILITY_OVERLAY` window. It is not
 focusable, so the system back/home gestures still reach the app below and the
 user can always leave. Actions: go home (or back, for feeds) and continue
 (pause screen only, after the countdown). There is deliberately no snooze or
-end-focus action: a one-tap escape defeats the rule.
+end-focus action: a one-tap escape defeats the rule. With the opt-in unlock
+challenge (`unlockMinutes` > 0 in the config), block, limit, focus and feed
+screens add **Hold to unlock**: after a 5-second hold the screen shows a sum
+(`a × b + c`) and an on-screen keypad, since the window cannot take keyboard
+focus. A wrong answer draws a new sum. The right one snoozes every rule for
+the app for `unlockMinutes`, through the same snooze map the engine already
+honours.
 
 ## Bank guard
 
@@ -175,11 +181,13 @@ Config document (`version` 1):
   },
   "pauseSeconds": 10,
   "pauseMessage": null,
+  "unlockMinutes": 0,
   "bankPackages": ["com.nu.production", "com.itau"]
 }
 ```
 
-`bankPackages` is empty when the bank guard is turned off.
+`bankPackages` is empty when the bank guard is turned off, and `unlockMinutes`
+is 0 while the unlock challenge is turned off.
 
 `mode` is one of `appLimit`, `scheduledBlock`, `selectiveFeed`, `pauseScreen`,
 `allowException`. Unknown modes are ignored by the native parser.

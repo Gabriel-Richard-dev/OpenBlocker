@@ -38,6 +38,12 @@ class SettingsController extends Notifier<AppSettings> {
     );
   }
 
+  void setUnlockChallengeEnabled(bool enabled) =>
+      _set(state.copyWith(unlockChallengeEnabled: enabled));
+
+  void setUnlockMinutes(int minutes) =>
+      _set(state.copyWith(unlockMinutes: minutes.clamp(1, 60)));
+
   void setDefaultFocusMinutes(int minutes) =>
       _set(state.copyWith(defaultFocusMinutes: minutes.clamp(1, 600)));
 

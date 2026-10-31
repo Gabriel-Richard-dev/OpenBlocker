@@ -121,6 +121,8 @@ void main() {
       themeMode: ThemeMode.dark,
       pauseSeconds: 20,
       pauseMessage: 'Breathe',
+      unlockChallengeEnabled: true,
+      unlockMinutes: 15,
       defaultFocusMinutes: 45,
       bankGuardEnabled: false,
       bankPackages: ['com.example.bank'],
@@ -129,6 +131,7 @@ void main() {
     expect(AppSettings.fromJson(const {}), const AppSettings());
     expect(const AppSettings().bankPackages, BankApps.defaults);
     expect(const AppSettings().bankGuardEnabled, isTrue);
+    expect(const AppSettings().unlockChallengeEnabled, isFalse);
     expect(settings.copyWith(clearPauseMessage: true).pauseMessage, isNull);
   });
 

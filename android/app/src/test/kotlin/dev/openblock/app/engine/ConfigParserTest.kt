@@ -32,7 +32,8 @@ class ConfigParserTest {
                         "activeRuleIds": ["a"], "completed": false, "endedAtMs": null},
               "bankPackages": ["com.nu.production"],
               "pauseSeconds": 3,
-              "pauseMessage": null
+              "pauseMessage": null,
+              "unlockMinutes": 10
             }
         """.trimIndent()
         val config = ConfigParser.parseConfig(json)
@@ -49,6 +50,7 @@ class ConfigParserTest {
         assertEquals(setOf("com.nu.production"), config.bankPackages)
         assertEquals(3, config.pauseSeconds)
         assertNull(config.pauseMessage)
+        assertEquals(10, config.unlockMinutes)
         assertEquals(setOf("p"), config.packages)
     }
 
@@ -57,6 +59,7 @@ class ConfigParserTest {
         assertTrue(ConfigParser.parseConfig(null).rules.isEmpty())
         assertTrue(ConfigParser.parseConfig("not json").rules.isEmpty())
         assertTrue(ConfigParser.parseConfig("{}").rules.isEmpty())
+        assertEquals(0, ConfigParser.parseConfig("{}").unlockMinutes)
     }
 
     @Test

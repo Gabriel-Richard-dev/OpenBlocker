@@ -41,8 +41,11 @@ When a rule triggers, OpenBlock shows a calm, full-screen intervention:
 
 The only way out is back (or home). There is deliberately no snooze and no
 "end focus" button on this screen: rules can be paused and focus sessions ended
-from inside OpenBlock, where it takes a conscious decision. OpenBlock never
-hides the system settings or locks you out of your own device.
+from inside OpenBlock, where it takes a conscious decision. If you want a way
+in from the block screen itself, turn on **Settings › Unlock with a challenge**:
+hold the button for 5 seconds, solve a sum such as `27 × 6 + 48`, and the app
+is unlocked for a few minutes (5 by default). OpenBlock never hides the system
+settings or locks you out of your own device.
 
 Some banking apps refuse to open while any third-party accessibility service is
 on. With **Settings › Banking apps**, OpenBlock turns its service off while a

@@ -106,6 +106,43 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   onTap: () => _editPauseMessage(context, ref),
                 ),
+                SwitchListTile(
+                  secondary: const Icon(Icons.calculate_outlined),
+                  title: Text(l10n.unlockChallengeTitle),
+                  subtitle: Text(l10n.unlockChallengeSubtitle),
+                  value: settings.unlockChallengeEnabled,
+                  onChanged: controller.setUnlockChallengeEnabled,
+                ),
+                ListTile(
+                  leading: const Icon(Icons.lock_clock_outlined),
+                  title: Text(l10n.unlockLength),
+                  enabled: settings.unlockChallengeEnabled,
+                  trailing: DropdownButton<int>(
+                    value: settings.unlockMinutes,
+                    underline: const SizedBox.shrink(),
+                    items: [
+                      for (final minutes in {
+                        1,
+                        5,
+                        10,
+                        15,
+                        30,
+                        settings.unlockMinutes,
+                      })
+                        DropdownMenuItem(
+                          value: minutes,
+                          child: Text(l10n.minutesShort(minutes)),
+                        ),
+                    ],
+                    onChanged: settings.unlockChallengeEnabled
+                        ? (value) {
+                            if (value != null) {
+                              controller.setUnlockMinutes(value);
+                            }
+                          }
+                        : null,
+                  ),
+                ),
               ],
             ),
           ),

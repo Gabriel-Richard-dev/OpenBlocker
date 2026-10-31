@@ -30,6 +30,7 @@ object ConfigParser {
         focus = obj.optJSONObject("focus")?.let(::parseFocus),
         pauseSeconds = obj.optInt("pauseSeconds", 10),
         pauseMessage = obj.optStringOrNull("pauseMessage"),
+        unlockMinutes = obj.optInt("unlockMinutes", 0),
         bankPackages = obj.optJSONArray("bankPackages").toStringList().toSet(),
     )
 

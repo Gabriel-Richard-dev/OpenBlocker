@@ -272,6 +272,7 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
             appLabel = appLabel(pkg),
             focusId = if (byFocus) ctx.focus?.id else null,
             countdownSeconds = config.pauseSeconds,
+            unlockMinutes = config.unlockMinutes,
             customMessage = config.pauseMessage,
         )
         overlay.show(spec, this)
@@ -304,6 +305,13 @@ class OpenBlockAccessibilityService : AccessibilityService(), InterventionOverla
     override fun onContinue(spec: InterventionOverlay.Spec) {
         acknowledged.add(spec.packageName)
         overlay.hide()
+    }
+
+    override fun onUnlock(spec: InterventionOverlay.Spec) {
+        overlay.hide()
+        // Every rule for the app, so a second rule does not block it again.
+        val ruleIds = store.config().rulesFor(spec.packageName).map { it.id }
+        store.snooze(ruleIds, System.currentTimeMillis() + spec.unlockMinutes * 60_000L)
     }
 
     companion object {

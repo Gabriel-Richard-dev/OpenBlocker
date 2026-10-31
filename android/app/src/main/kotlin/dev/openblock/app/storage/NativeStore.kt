@@ -59,6 +59,14 @@ class NativeStore private constructor(context: Context) {
         return result
     }
 
+    /** Lets the rules through until [untilMs], after a solved unlock challenge. */
+    fun snooze(ruleIds: Collection<String>, untilMs: Long) {
+        val obj = JSONObject()
+        snoozes().forEach { (id, until) -> obj.put(id, until) }
+        ruleIds.forEach { obj.put(it, untilMs) }
+        prefs.edit().putString(KEY_SNOOZES, obj.toString()).apply()
+    }
+
     fun clearSnooze(ruleId: String) {
         val obj = JSONObject()
         snoozes().filterKeys { it != ruleId }.forEach { (id, until) -> obj.put(id, until) }

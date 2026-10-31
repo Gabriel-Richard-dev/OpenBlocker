@@ -46,6 +46,8 @@ data class OpenBlockConfig(
     val focus: FocusSession? = null,
     val pauseSeconds: Int = 10,
     val pauseMessage: String? = null,
+    /** How long a solved unlock challenge lets the app in; 0 turns it off. */
+    val unlockMinutes: Int = 0,
     /** Banking apps the service steps aside for; empty when the guard is off. */
     val bankPackages: Set<String> = emptySet(),
 ) {

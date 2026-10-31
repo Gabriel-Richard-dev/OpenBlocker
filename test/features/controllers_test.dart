@@ -225,6 +225,13 @@ void main() {
       expect(banks.last, 'com.example.bank');
       settings.setBankGuardEnabled(false);
       expect(platform.lastConfig!['bankPackages'], isEmpty);
+
+      // The unlock is only sent while the challenge is turned on.
+      expect(platform.lastConfig!['unlockMinutes'], 0);
+      settings
+        ..setUnlockMinutes(10)
+        ..setUnlockChallengeEnabled(true);
+      expect(platform.lastConfig!['unlockMinutes'], 10);
       expect(platform.lastConfig!['version'], nativeConfigVersion);
     });
 

@@ -14,6 +14,9 @@ All notable changes to this project are documented here. The format follows
   `WRITE_SECURE_SETTINGS` grant through ADB.
 - **Progress widget** for the home screen: today's screen time, the change
   against your usual by this time of day and the last seven days.
+- **Unlock with a challenge** (opt-in, off by default): block screens offer
+  *Hold to unlock*. Hold the button for 5 seconds, then solve a sum on an
+  on-screen keypad; the app stays unlocked for 1–30 minutes (5 by default).
 
 ### Removed
 

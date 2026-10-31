@@ -21,6 +21,12 @@
     <string name="overlay_action_back">Go back</string>
     <string name="overlay_action_continue">Continue</string>
     <string name="overlay_action_continue_in">Continue in %1$d s</string>
+    <string name="overlay_action_unlock_hold">Hold to unlock</string>
+    <string name="overlay_action_unlock_holding">Keep holding… %1$d s</string>
+    <string name="overlay_unlock_prompt">Solve this to unlock %1$s for %2$d min</string>
+    <string name="overlay_unlock_wrong">Not quite. Try this one.</string>
+    <string name="overlay_unlock_ok">OK</string>
+    <string name="overlay_unlock_delete">Delete</string>
 
     <string name="bank_guard_channel">Paused for banking apps</string>
     <string name="bank_guard_title">OpenBlock is paused for your banking app</string>

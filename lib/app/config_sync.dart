@@ -24,6 +24,9 @@ Map<String, Object?> buildNativeConfig({
   'focus': focus?.toJson(),
   'pauseSeconds': settings.pauseSeconds,
   'pauseMessage': settings.pauseMessage,
+  'unlockMinutes': settings.unlockChallengeEnabled
+      ? settings.unlockMinutes
+      : 0,
   'bankPackages': settings.bankGuardEnabled
       ? settings.bankPackages
       : const <String>[],
