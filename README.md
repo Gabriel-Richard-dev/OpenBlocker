@@ -11,7 +11,7 @@ rest of the app usable.
 No account. No server. No ads. No tracking. The app does not even request
 network access.
 
-> **Status: 0.1.0 pre-release (MVP).** App blocking, limits, pause screens and
+> **Status: 0.2.0 pre-release.** App blocking, limits, pause screens and
 > focus sessions work and are tested end-to-end on the Android emulator in CI.
 > Feed blocking (Shorts/Reels) is **experimental** and has not been verified on
 > real devices yet. See [Limitations](#limitations).
