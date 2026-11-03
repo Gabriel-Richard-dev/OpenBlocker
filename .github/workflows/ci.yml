@@ -33,7 +33,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed $(git ls-files '*.dart')
       - run: flutter analyze
       - run: flutter test --coverage
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage/lcov.info
@@ -62,13 +62,13 @@ jobs:
         run: flutter build apk --release
       - name: Release build must not request network access
         run: tool/ci/check_permissions.sh build/app/outputs/flutter-apk/app-release.apk
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: android-unit-test-report
           path: build/app/reports/tests/
           if-no-files-found: ignore
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v7
         with:
           name: openblock-debug-apk
           path: build/app/outputs/flutter-apk/app-debug.apk
